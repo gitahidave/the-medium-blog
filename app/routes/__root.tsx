@@ -1,7 +1,7 @@
 import { createRootRoute, Outlet } from '@tanstack/react-router'
-import { AuthProvider } from '~/contexts/AuthContext'
-import { BlogProvider } from '~/contexts/BlogContext'
-import { Header } from '~/components/Header'
+import { AuthProvider } from '../contexts/AuthContext'
+import { BlogProvider } from '../contexts/BlogContext'
+import { Header } from '~/routes/components/Header'
 import '../styles.css'
 
 export const Route = createRootRoute({
