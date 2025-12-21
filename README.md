@@ -32,7 +32,7 @@ A full-featured blogging application built with React 19 and TanStack Start, fea
 ### Installation
 
 ```bash
-cd blog-app
+cd the-medium-blog
 npm install
 ```
 
@@ -66,7 +66,7 @@ npm start
 ## Project Structure
 
 ```
-blog-app/
+the-medium-blog/
 ├── app/
 │   ├── routes/               # File-based routing
 │   │   ├── __root.tsx        # Root layout with providers
@@ -179,8 +179,6 @@ Potential features to add:
 - Email notifications
 
 ## License
-
-MIT License - feel free to use this project as a template for your own applications!
 
 ## Contributing
 
