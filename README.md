@@ -1,4 +1,4 @@
-# ModernBlog - TanStack Start Blogging Application
+# Echo It Blog App  - TanStack Start Blogging Application
 
 A full-featured blogging application built with React 19 and TanStack Start, featuring authentication, role-based access control, and a beautiful editorial design aesthetic.
 
