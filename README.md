@@ -1,290 +1,187 @@
-Welcome to your new TanStack app! 
+# ModernBlog - TanStack Start Blogging Application
 
-# Getting Started
+A full-featured blogging application built with React 19 and TanStack Start, featuring authentication, role-based access control, and a beautiful editorial design aesthetic.
 
-To run this application:
+## Features
+
+### Core Functionality
+- **User Authentication**: Login system with user and admin roles
+- **Create Posts**: Authenticated users can create new blog posts
+- **Edit Posts**: Users can edit their own posts; admins can edit any post
+- **Delete Posts**: Admins can delete any post
+- **View Posts**: Public viewing of all blog posts
+
+### Technical Features
+- **React 19**: Latest React with modern hooks and patterns
+- **TanStack Start**: Full-stack framework with file-based routing
+- **Context API**: State management for auth and blog data
+- **Custom Hooks**: `useAuth()` and `useBlog()` for clean component logic
+- **LocalStorage**: Persistent data storage (simulates backend)
+- **TypeScript**: Full type safety throughout the application
+- **Responsive Design**: Mobile-first, fully responsive layout
+
+### Design
+- **Editorial Aesthetic**: Inspired by high-end magazine layouts
+- **Custom Typography**: Crimson Pro (display) + Instrument Sans (body)
+- **Warm Color Palette**: Brown, terracotta, and cream tones
+- **Smooth Animations**: Staggered reveals, hover effects, and transitions
+- **Professional UI**: Clean, sophisticated interface
+
+## Getting Started
+
+### Installation
 
 ```bash
+cd blog-app
 npm install
-npm run start
 ```
 
-# Building For Production
+### Development
 
-To build this application for production:
+```bash
+npm run dev
+```
+
+Visit `http://localhost:3000` in your browser.
+
+### Build for Production
 
 ```bash
 npm run build
+npm start
 ```
 
-## Testing
+## Demo Credentials
 
-This project uses [Vitest](https://vitest.dev/) for testing. You can run the tests with:
+### Admin Account
+- **Username**: `admin`
+- **Password**: `admin123`
+- **Permissions**: Can edit and delete any post
 
-```bash
-npm run test
+### Regular User Account
+- **Username**: `user`
+- **Password**: `user123`
+- **Permissions**: Can create and edit own posts
+
+## Project Structure
+
+```
+blog-app/
+├── app/
+│   ├── routes/               # File-based routing
+│   │   ├── __root.tsx        # Root layout with providers
+│   │   ├── index.tsx         # Home page (post list)
+│   │   ├── login.tsx         # Login page
+│   │   ├── new.tsx           # Create new post
+│   │   ├── edit.$postId.tsx  # Edit post
+│   │   └── post.$postId.tsx  # Post detail view
+│   ├── contexts/             # React Context providers
+│   │   ├── AuthContext.tsx   # Authentication state
+│   │   └── BlogContext.tsx   # Blog posts state
+│   ├── components/           # Reusable components
+│   │   └── Header.tsx        # Navigation header
+│   ├── styles.css            # Global styles
+│   ├── router.tsx            # Router configuration
+│   ├── routeTree.gen.ts      # Generated route tree
+│   ├── client.tsx            # Client entry point
+│   └── server.tsx            # Server entry point
+├── package.json
+├── tsconfig.json
+└── app.config.ts
 ```
 
-## Styling
+## Architecture
 
-This project uses [Tailwind CSS](https://tailwindcss.com/) for styling.
+### Authentication Layer
+The app uses Context API for authentication:
 
-
-
-
-## Routing
-This project uses [TanStack Router](https://tanstack.com/router). The initial setup is a file based router. Which means that the routes are managed as files in `src/routes`.
-
-### Adding A Route
-
-To add a new route to your application just add another a new file in the `./src/routes` directory.
-
-TanStack will automatically generate the content of the route file for you.
-
-Now that you have two routes you can use a `Link` component to navigate between them.
-
-### Adding Links
-
-To use SPA (Single Page Application) navigation you will need to import the `Link` component from `@tanstack/react-router`.
-
-```tsx
-import { Link } from "@tanstack/react-router";
+```typescript
+// AuthContext provides:
+- user: User | null          // Current logged-in user
+- login(username, password)  // Login function
+- logout()                   // Logout function
+- isAdmin: boolean           // Admin role check
 ```
 
-Then anywhere in your JSX you can use it like so:
+### Blog Management
+Blog posts are managed through BlogContext:
 
-```tsx
-<Link to="/about">About</Link>
+```typescript
+// BlogContext provides:
+- posts: BlogPost[]                    // All posts
+- addPost(post)                        // Create new post
+- updatePost(id, updates)              // Update post
+- deletePost(id)                       // Delete post
+- getPost(id)                          // Get single post
 ```
 
-This will create a link that will navigate to the `/about` route.
+### Permissions System
+- **Anonymous**: Can view all posts
+- **Logged-in User**: Can create posts and edit their own posts
+- **Admin**: Can edit and delete any post
 
-More information on the `Link` component can be found in the [Link documentation](https://tanstack.com/router/v1/docs/framework/react/api/router/linkComponent).
+### Data Persistence
+- All data is stored in `localStorage`
+- Auth state persists across sessions
+- Blog posts persist across page refreshes
+- Initial sample posts are created on first load
 
-### Using A Layout
+## Routes
 
-In the File Based Routing setup the layout is located in `src/routes/__root.tsx`. Anything you add to the root route will appear in all the routes. The route content will appear in the JSX where you use the `<Outlet />` component.
+- `/` - Home page with post list
+- `/login` - Login page
+- `/new` - Create new post (requires auth)
+- `/post/:postId` - View post detail
+- `/edit/:postId` - Edit post (requires auth + ownership/admin)
 
-Here is an example layout that includes a header:
+## Custom Hooks
 
-```tsx
-import { Outlet, createRootRoute } from '@tanstack/react-router'
-import { TanStackRouterDevtools } from '@tanstack/react-router-devtools'
-
-import { Link } from "@tanstack/react-router";
-
-export const Route = createRootRoute({
-  component: () => (
-    <>
-      <header>
-        <nav>
-          <Link to="/">Home</Link>
-          <Link to="/about">About</Link>
-        </nav>
-      </header>
-      <Outlet />
-      <TanStackRouterDevtools />
-    </>
-  ),
-})
+### useAuth()
+```typescript
+const { user, login, logout, isAdmin } = useAuth()
 ```
 
-The `<TanStackRouterDevtools />` component is not required so you can remove it if you don't want it in your layout.
-
-More information on layouts can be found in the [Layouts documentation](https://tanstack.com/router/latest/docs/framework/react/guide/routing-concepts#layouts).
-
-
-## Data Fetching
-
-There are multiple ways to fetch data in your application. You can use TanStack Query to fetch data from a server. But you can also use the `loader` functionality built into TanStack Router to load the data for a route before it's rendered.
-
-For example:
-
-```tsx
-const peopleRoute = createRoute({
-  getParentRoute: () => rootRoute,
-  path: "/people",
-  loader: async () => {
-    const response = await fetch("https://swapi.dev/api/people");
-    return response.json() as Promise<{
-      results: {
-        name: string;
-      }[];
-    }>;
-  },
-  component: () => {
-    const data = peopleRoute.useLoaderData();
-    return (
-      <ul>
-        {data.results.map((person) => (
-          <li key={person.name}>{person.name}</li>
-        ))}
-      </ul>
-    );
-  },
-});
+### useBlog()
+```typescript
+const { posts, addPost, updatePost, deletePost, getPost } = useBlog()
 ```
 
-Loaders simplify your data fetching logic dramatically. Check out more information in the [Loader documentation](https://tanstack.com/router/latest/docs/framework/react/guide/data-loading#loader-parameters).
+## Design Philosophy
 
-### React-Query
+This application follows editorial design principles:
+- **Typography-first**: Large, readable serif headings
+- **Generous spacing**: Plenty of white space for readability
+- **Subtle animations**: Smooth, purposeful transitions
+- **Warm palette**: Inviting, sophisticated color scheme
+- **Clean hierarchy**: Clear visual organization
 
-React-Query is an excellent addition or alternative to route loading and integrating it into you application is a breeze.
+## Technologies Used
 
-First add your dependencies:
+- **React 19**: Latest React features
+- **TanStack Start**: Full-stack React framework
+- **TanStack Router**: Type-safe routing
+- **TypeScript**: Type safety
+- **Vinxi**: Build tool
+- **CSS3**: Modern styling with custom properties
 
-```bash
-npm install @tanstack/react-query @tanstack/react-query-devtools
-```
+## Future Enhancements
 
-Next we'll need to create a query client and provider. We recommend putting those in `main.tsx`.
+Potential features to add:
+- Backend API integration
+- Database storage (PostgreSQL, MongoDB)
+- Rich text editor (Tiptap, Draft.js)
+- Image uploads
+- Comments system
+- Search functionality
+- Tags and categories
+- User profiles
+- Password reset
+- Email notifications
 
-```tsx
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+## License
 
-// ...
+MIT License - feel free to use this project as a template for your own applications!
 
-const queryClient = new QueryClient();
+## Contributing
 
-// ...
-
-if (!rootElement.innerHTML) {
-  const root = ReactDOM.createRoot(rootElement);
-
-  root.render(
-    <QueryClientProvider client={queryClient}>
-      <RouterProvider router={router} />
-    </QueryClientProvider>
-  );
-}
-```
-
-You can also add TanStack Query Devtools to the root route (optional).
-
-```tsx
-import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
-
-const rootRoute = createRootRoute({
-  component: () => (
-    <>
-      <Outlet />
-      <ReactQueryDevtools buttonPosition="top-right" />
-      <TanStackRouterDevtools />
-    </>
-  ),
-});
-```
-
-Now you can use `useQuery` to fetch your data.
-
-```tsx
-import { useQuery } from "@tanstack/react-query";
-
-import "./App.css";
-
-function App() {
-  const { data } = useQuery({
-    queryKey: ["people"],
-    queryFn: () =>
-      fetch("https://swapi.dev/api/people")
-        .then((res) => res.json())
-        .then((data) => data.results as { name: string }[]),
-    initialData: [],
-  });
-
-  return (
-    <div>
-      <ul>
-        {data.map((person) => (
-          <li key={person.name}>{person.name}</li>
-        ))}
-      </ul>
-    </div>
-  );
-}
-
-export default App;
-```
-
-You can find out everything you need to know on how to use React-Query in the [React-Query documentation](https://tanstack.com/query/latest/docs/framework/react/overview).
-
-## State Management
-
-Another common requirement for React applications is state management. There are many options for state management in React. TanStack Store provides a great starting point for your project.
-
-First you need to add TanStack Store as a dependency:
-
-```bash
-npm install @tanstack/store
-```
-
-Now let's create a simple counter in the `src/App.tsx` file as a demonstration.
-
-```tsx
-import { useStore } from "@tanstack/react-store";
-import { Store } from "@tanstack/store";
-import "./App.css";
-
-const countStore = new Store(0);
-
-function App() {
-  const count = useStore(countStore);
-  return (
-    <div>
-      <button onClick={() => countStore.setState((n) => n + 1)}>
-        Increment - {count}
-      </button>
-    </div>
-  );
-}
-
-export default App;
-```
-
-One of the many nice features of TanStack Store is the ability to derive state from other state. That derived state will update when the base state updates.
-
-Let's check this out by doubling the count using derived state.
-
-```tsx
-import { useStore } from "@tanstack/react-store";
-import { Store, Derived } from "@tanstack/store";
-import "./App.css";
-
-const countStore = new Store(0);
-
-const doubledStore = new Derived({
-  fn: () => countStore.state * 2,
-  deps: [countStore],
-});
-doubledStore.mount();
-
-function App() {
-  const count = useStore(countStore);
-  const doubledCount = useStore(doubledStore);
-
-  return (
-    <div>
-      <button onClick={() => countStore.setState((n) => n + 1)}>
-        Increment - {count}
-      </button>
-      <div>Doubled - {doubledCount}</div>
-    </div>
-  );
-}
-
-export default App;
-```
-
-We use the `Derived` class to create a new store that is derived from another store. The `Derived` class has a `mount` method that will start the derived store updating.
-
-Once we've created the derived store we can use it in the `App` component just like we would any other store using the `useStore` hook.
-
-You can find out everything you need to know on how to use TanStack Store in the [TanStack Store documentation](https://tanstack.com/store/latest).
-
-# Demo files
-
-Files prefixed with `demo` can be safely deleted. They are there to provide a starting point for you to play around with the features you've installed.
-
-# Learn More
-
-You can learn more about all of the offerings from TanStack in the [TanStack documentation](https://tanstack.com).
+This is a demonstration project. Feel free to fork and modify for your needs!
