@@ -166,18 +166,6 @@ This application follows editorial design principles:
 
 ## Future Enhancements
 
-Potential features to add:
-- Backend API integration
-- Database storage (PostgreSQL, MongoDB)
-- Rich text editor (Tiptap, Draft.js)
-- Image uploads
-- Comments system
-- Search functionality
-- Tags and categories
-- User profiles
-- Password reset
-- Email notifications
-
 ## License
 
 ## Contributing
