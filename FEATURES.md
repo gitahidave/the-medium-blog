@@ -106,7 +106,7 @@ The app initializes with two sample posts:
 
 ### 1. Install & Run
 ```bash
-cd blog-app
+cd the-medium-blog
 npm install
 npm run dev
 ```
@@ -212,5 +212,3 @@ Want to enhance the app? Try adding:
 - Email verification
 - Draft posts
 - Scheduled publishing
-
-Enjoy building with ModernBlog! 🎉
