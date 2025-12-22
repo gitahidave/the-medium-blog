@@ -20,5 +20,5 @@
       "~/*": ["./app/*", "./src/*"]
     }
   },
-  "include": ["src", "app/contexts", "app/routes", "app/components"]
+  "include": ["src", "app/contexts", "app/routes", "app/components"],
 }

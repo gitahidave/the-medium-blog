@@ -3,9 +3,11 @@ import { useState, useEffect } from 'react'
 import { useBlog } from '~/contexts/BlogContext'
 import { useAuth } from '~/contexts/AuthContext'
 
-export const Route = createFileRoute('/edit/$postId')({
+// ...existing code...
+export const Route = createFileRoute()({
   component: EditPostComponent,
 })
+// ...existing code...
 
 function EditPostComponent() {
   const { postId } = Route.useParams()
