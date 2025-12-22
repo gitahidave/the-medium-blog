@@ -20,6 +20,5 @@
       "~/*": ["./app/*", "./src/*"]
     }
   },
-  "include": ["src", "app/contexts", "app/routes", "app/components"],
-  "references": [{ "path": "./tsconfig.node.json" }]
+  "include": ["src", "app/contexts", "app/routes", "app/components"]
 }
