@@ -1,6 +1,6 @@
 #!/bin/bash
 
-echo "🚀 Setting up ModernBlog..."
+echo "🚀 Setting up Medium Blog..."
 echo ""
 
 # Install dependencies
@@ -10,9 +10,11 @@ npm install
 echo ""
 echo "✅ Setup complete!"
 echo ""
-echo "To start the development server, run:"
+echo "To start the development server:"
 echo "  npm run dev"
 echo ""
-echo "Demo credentials:"
-echo "  Admin: admin / admin123"
-echo "  User:  user / user123"
+echo "Demo accounts:"
+echo "  Admin:  admin / admin123"
+echo "  Writer: writer / writer123"
+echo ""
+echo "Open http://localhost:3000 in your browser"

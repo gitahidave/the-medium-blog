@@ -4,9 +4,9 @@ dist
 dist-ssr
 *.local
 count.txt
-.env
+*.env
 .nitro
-.tanstack
+*.tanstack
 .wrangler
 .output
 .vinxi
