@@ -3,7 +3,10 @@ import { createContext, useContext, useState, useEffect, ReactNode } from 'react
 export interface User {
   id: string
   username: string
+  email: string
   role: 'user' | 'admin'
+  avatar?: string
+  bio?: string
 }
 
 interface AuthContextType {
@@ -11,22 +14,38 @@ interface AuthContextType {
   login: (username: string, password: string) => boolean
   logout: () => void
   isAdmin: boolean
+  isAuthenticated: boolean
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined)
 
-// Mock users database (in a real app, this would be server-side)
+// Mock users database
 const USERS = [
-  { id: '1', username: 'admin', password: 'admin123', role: 'admin' as const },
-  { id: '2', username: 'user', password: 'user123', role: 'user' as const }
+  { 
+    id: '1', 
+    username: 'admin', 
+    email: 'admin@medium.com',
+    password: 'admin123', 
+    role: 'admin' as const,
+    avatar: '👨‍💼',
+    bio: 'Platform administrator and content curator'
+  },
+  { 
+    id: '2', 
+    username: 'writer', 
+    email: 'writer@medium.com',
+    password: 'writer123', 
+    role: 'user' as const,
+    avatar: '✍️',
+    bio: 'Passionate writer sharing stories and insights'
+  }
 ]
 
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<User | null>(null)
 
   useEffect(() => {
-    // Check localStorage for existing session
-    const storedUser = localStorage.getItem('user')
+    const storedUser = localStorage.getItem('medium_user')
     if (storedUser) {
       setUser(JSON.parse(storedUser))
     }
@@ -38,9 +57,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     )
     
     if (foundUser) {
-      const userData = { id: foundUser.id, username: foundUser.username, role: foundUser.role }
+      const { password: _, ...userData } = foundUser
       setUser(userData)
-      localStorage.setItem('user', JSON.stringify(userData))
+      localStorage.setItem('medium_user', JSON.stringify(userData))
       return true
     }
     return false
@@ -48,13 +67,14 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   const logout = () => {
     setUser(null)
-    localStorage.removeItem('user')
+    localStorage.removeItem('medium_user')
   }
 
   const isAdmin = user?.role === 'admin'
+  const isAuthenticated = !!user
 
   return (
-    <AuthContext.Provider value={{ user, login, logout, isAdmin }}>
+    <AuthContext.Provider value={{ user, login, logout, isAdmin, isAuthenticated }}>
       {children}
     </AuthContext.Provider>
   )

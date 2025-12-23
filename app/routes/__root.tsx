@@ -1,7 +1,7 @@
 import { createRootRoute, Outlet } from '@tanstack/react-router'
-import { AuthProvider } from '../contexts/AuthContext'
-import { BlogProvider } from '../contexts/BlogContext'
-import { Header } from '~/routes/components/Header'
+import { AuthProvider } from '~/contexts/AuthContext'
+import { StoryProvider } from '~/contexts/StoryContext'
+import { Header } from '~/components/Header'
 import '../styles.css'
 
 export const Route = createRootRoute({
@@ -11,14 +11,12 @@ export const Route = createRootRoute({
 function RootComponent() {
   return (
     <AuthProvider>
-      <BlogProvider>
+      <StoryProvider>
         <div className="app">
           <Header />
-          <main className="main-content">
-            <Outlet />
-          </main>
+          <Outlet />
         </div>
-      </BlogProvider>
+      </StoryProvider>
     </AuthProvider>
   )
 }

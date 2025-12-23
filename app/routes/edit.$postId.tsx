@@ -4,7 +4,7 @@ import { useBlog } from '~/contexts/BlogContext'
 import { useAuth } from '~/contexts/AuthContext'
 
 // ...existing code...
-export const Route = createFileRoute()({
+export const Route = createFileRoute('/edit/$postId')({
   component: EditPostComponent,
 })
 // ...existing code...
@@ -85,7 +85,7 @@ function EditPostComponent() {
           </div>
 
           <div className="editor-actions">
-            <button type="button" onClick={() => navigate({ to: `/post/${postId}` })} className="btn-secondary">
+            <button type="button" onClick={() => navigate({ to: "/post/${postId}" })} className="btn-secondary">
               Cancel
             </button>
             <button type="submit" className="btn-primary">

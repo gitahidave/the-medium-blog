@@ -1,21 +1,21 @@
 import { Route as rootRoute } from './routes/__root'
 import { Route as IndexRoute } from './routes/index'
 import { Route as LoginRoute } from './routes/login'
-import { Route as NewRoute } from './routes/new'
-import { Route as PostRoute } from './routes/post.$postId'
-import { Route as EditRoute } from './routes/edit.$postId'
+import { Route as WriteRoute } from './routes/write'
+import { Route as StoryRoute } from './routes/story.$storyId'
+import { Route as EditRoute } from './routes/edit.$storyId'
 
 const IndexRouteWithChildren = IndexRoute
 const LoginRouteWithChildren = LoginRoute
-const NewRouteWithChildren = NewRoute
-const PostRouteWithChildren = PostRoute
+const WriteRouteWithChildren = WriteRoute
+const StoryRouteWithChildren = StoryRoute
 const EditRouteWithChildren = EditRoute
 
 const routeTree = rootRoute.addChildren([
   IndexRouteWithChildren,
   LoginRouteWithChildren,
-  NewRouteWithChildren,
-  PostRouteWithChildren,
+  WriteRouteWithChildren,
+  StoryRouteWithChildren,
   EditRouteWithChildren
 ])
 
